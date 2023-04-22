@@ -1,0 +1,25 @@
+{
+  "name": "finalProject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^2.0.10",
+    "browser-sync": "^2.27.7",
+    "openzeppelin-solidity": "^3.4.2",
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.6.1",
+    "@openzeppelin/contracts": "^3.4.2"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15"
+  }
+}
