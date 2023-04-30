@@ -10,8 +10,10 @@ contract UserAuthentication{
         userPassMappings[_user]=pass;
     }
 
-    function userExists(address _user) public view returns(string memory) {
-       return userPassMappings[_user];
+    function userExists(address _user) public view returns(bool) {
+       if(bytes(userPassMappings[_user]).length != 0 )
+            return true;
+        return false;
     }
 
     function checkPass(address _user, string memory pass) public view returns(bool) {
@@ -21,3 +23,4 @@ contract UserAuthentication{
     }
 
 }
+
