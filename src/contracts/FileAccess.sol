@@ -3,7 +3,7 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 pragma experimental ABIEncoderV2;
-contract Upload {
+contract FileAccess {
   
   struct Access{
      address user; 
@@ -17,6 +17,7 @@ contract Upload {
   function add(address _user,string calldata url) external {
       value[_user].push(url);
   }
+  
   function allow(address user) external {//def
       ownership[msg.sender][user]=true; 
       if(previousData[msg.sender][user]){
