@@ -4,23 +4,64 @@ pragma solidity >=0.4.21 <0.6.0;
 
 pragma experimental ABIEncoderV2;
 contract FileAccess {
+
+ struct File{
+    string url;
+    uint version;
+    string name;
+ }
   
   struct Access{
      address user; 
-     bool access; //true or false
+     bool access; 
   }
-  mapping(address=>string[]) value;
-  mapping(address=>mapping(address=>bool)) ownership;
+  mapping(address=>string[]) fileUrls;
+  mapping(address=>string[]) fileNames;
+  mapping(address=>mapping(address=>bool)) trackOwner;
+  mapping(address=>mapping(string=>File[])) filesMapping;
   mapping(address=>Access[]) accessList;
-  mapping(address=>mapping(address=>bool)) previousData;
+  mapping(address=>mapping(address=>bool)) lastState;
 
-  function add(address _user,string calldata url) external {
-      value[_user].push(url);
+  function add(address _user,string calldata url, string memory name) external {
+      if(filesMapping[_user][name].length > 0){
+          uint version = filesMapping[_user][name].length + 1;
+          filesMapping[_user][name].push(File(url, version, name));
+      }else{
+        filesMapping[_user][name].push(File(url, 1, name));
+      }
+        fileUrls[_user].push(url);
+
+        uint flag=0;
+
+        for(uint i=0; i<fileNames[_user].length;i++){
+            if(keccak256(abi.encodePacked(fileNames[_user][i]))==keccak256(abi.encodePacked(name))){
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0)
+             fileNames[_user].push(name);
   }
-  
-  function allow(address user) external {//def
-      ownership[msg.sender][user]=true; 
-      if(previousData[msg.sender][user]){
+
+  function getFilesForUser(address _user) public view returns(File[]  memory){
+      File[] memory fileList = new File[](20);
+      uint index=0;
+
+      for(uint i=0; i<fileNames[_user].length;i++){
+          string memory name = fileNames[_user][i];
+          File[] memory tempList = filesMapping[_user][name];
+          for(uint j=0; j<tempList.length;j++){
+            fileList[index]= tempList[j];
+            index=index+1;
+          }
+      }
+
+    return fileList;
+  }
+
+  function allow(address user) external {
+      trackOwner[msg.sender][user]=true; 
+      if(lastState[msg.sender][user]){
          for(uint i=0;i<accessList[msg.sender].length;i++){
              if(accessList[msg.sender][i].user==user){
                   accessList[msg.sender][i].access=true; 
@@ -28,12 +69,12 @@ contract FileAccess {
          }
       }else{
           accessList[msg.sender].push(Access(user,true));  
-          previousData[msg.sender][user]=true;  
+          lastState[msg.sender][user]=true;  
       }
     
   }
   function disallow(address user) public{
-      ownership[msg.sender][user]=false;
+      trackOwner[msg.sender][user]=false;
       for(uint i=0;i<accessList[msg.sender].length;i++){
           if(accessList[msg.sender][i].user==user){ 
               accessList[msg.sender][i].access=false;  
@@ -42,8 +83,8 @@ contract FileAccess {
   }
 
   function display(address _user) external view returns(string[] memory){
-      require(_user==msg.sender || ownership[_user][msg.sender],"You don't have access");
-      return value[_user];
+      require(_user==msg.sender || trackOwner[_user][msg.sender],"You don't have access");
+      return fileUrls[_user];
   }
 
   function shareAccess() public view returns(Access[] memory){
