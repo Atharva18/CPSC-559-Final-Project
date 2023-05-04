@@ -21,6 +21,15 @@ contract FileAccess {
   mapping(address=>mapping(string=>File[])) filesMapping;
   mapping(address=>Access[]) accessList;
   mapping(address=>mapping(address=>bool)) lastState;
+  mapping(string=>address[]) fileLogs;
+
+  function log(string memory file, address _user) external{
+      fileLogs[file].push(_user);
+  }
+
+  function getLogs(string memory file) public view returns(address[] memory){
+      return fileLogs[file];
+  }
 
   function add(address _user,string calldata url, string memory name) external {
       if(filesMapping[_user][name].length > 0){
