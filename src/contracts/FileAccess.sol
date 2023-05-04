@@ -24,7 +24,7 @@ contract FileAccess {
   mapping(address=>mapping(address=>bool)) lastState;
   mapping(string=>address[]) fileLogs;
 
-  function log(string memory file, address _user) external{
+  function log(string calldata file, address _user) external{
       fileLogs[file].push(_user);
   }
 
@@ -32,7 +32,7 @@ contract FileAccess {
       return fileLogs[file];
   }
 
-  function add(address _user,string calldata url, string memory name) external {
+  function add(address _user,string calldata url, string calldata name) external {
       if(filesMapping[_user][name].length > 0){
           uint version = filesMapping[_user][name].length + 1;
           filesMapping[_user][name].push(File(url, version, name, false));
@@ -53,7 +53,7 @@ contract FileAccess {
              fileNames[_user].push(name);
   }
 
-  function starFile(address _user, string memory fileName, uint version) external view {
+  function starFile(address _user, string calldata fileName, uint version) external view {
          File[] memory fileList = filesMapping[_user][fileName];
            for (int i = 0; i < int(fileList.length); i++) {
               if (fileList[uint(i)].version == version) {
@@ -62,7 +62,7 @@ contract FileAccess {
            }
   }
 
-  function unStarFile(address _user, string memory fileName, uint version) external view{
+  function unStarFile(address _user, string calldata fileName, uint version) external view{
           File[] memory fileList = filesMapping[_user][fileName];
            for (int i = 0; i < int(fileList.length); i++) {
               if (fileList[uint(i)].version == version) {
@@ -87,7 +87,7 @@ contract FileAccess {
     return fileList;
   }
 
-   function deleteFile(address _user, string memory name, uint version) external {
+   function deleteFile(address _user, string calldata name, uint version) external {
          File[] storage fileList = filesMapping[_user][name];
              for (int i = int(fileList.length) - 1; i >= 0; i--) {
               if (fileList[uint(i)].version == version) {
