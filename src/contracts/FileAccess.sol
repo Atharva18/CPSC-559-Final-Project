@@ -59,6 +59,20 @@ contract FileAccess {
     return fileList;
   }
 
+   function deleteFile(address _user, string memory name, uint version) external {
+         File[] storage fileList = filesMapping[_user][name];
+             for (int i = int(fileList.length) - 1; i >= 0; i--) {
+              if (fileList[uint(i)].version == version) {
+                 fileList[uint(i)] = fileList[fileList.length - 1];
+                 fileList.pop();
+             }
+         }
+         filesMapping[_user][name]=fileList;
+         if(fileList.length==0){
+             fileNames[_user].pop();
+         }
+   }
+
   function allow(address user) external {
       trackOwner[msg.sender][user]=true; 
       if(lastState[msg.sender][user]){
