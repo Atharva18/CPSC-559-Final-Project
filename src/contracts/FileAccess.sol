@@ -9,6 +9,7 @@ contract FileAccess {
     string url;
     uint version;
     string name;
+    bool isStarred;
  }
   
   struct Access{
@@ -34,9 +35,9 @@ contract FileAccess {
   function add(address _user,string calldata url, string memory name) external {
       if(filesMapping[_user][name].length > 0){
           uint version = filesMapping[_user][name].length + 1;
-          filesMapping[_user][name].push(File(url, version, name));
+          filesMapping[_user][name].push(File(url, version, name, false));
       }else{
-        filesMapping[_user][name].push(File(url, 1, name));
+        filesMapping[_user][name].push(File(url, 1, name, false));
       }
         fileUrls[_user].push(url);
 
@@ -50,6 +51,24 @@ contract FileAccess {
         }
         if(flag==0)
              fileNames[_user].push(name);
+  }
+
+  function starFile(address _user, string memory fileName, uint version) external view {
+         File[] memory fileList = filesMapping[_user][fileName];
+           for (int i = 0; i < int(fileList.length); i++) {
+              if (fileList[uint(i)].version == version) {
+                  fileList[uint(i)].isStarred=true;
+              }
+           }
+  }
+
+  function unStarFile(address _user, string memory fileName, uint version) external view{
+          File[] memory fileList = filesMapping[_user][fileName];
+           for (int i = 0; i < int(fileList.length); i++) {
+              if (fileList[uint(i)].version == version) {
+                  fileList[uint(i)].isStarred=false;
+              }
+           }
   }
 
   function getFilesForUser(address _user) public view returns(File[]  memory){
