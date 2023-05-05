@@ -10,11 +10,17 @@ contract FileAccess {
     uint version;
     string name;
     bool isStarred;
+    string comment;
  }
   
   struct Access{
      address user; 
      bool access; 
+  }
+
+  struct FileLog{
+      address user;
+      string timestamp;
   }
   mapping(address=>string[]) fileUrls;
   mapping(address=>string[]) fileNames;
@@ -22,22 +28,23 @@ contract FileAccess {
   mapping(address=>mapping(string=>File[])) filesMapping;
   mapping(address=>Access[]) accessList;
   mapping(address=>mapping(address=>bool)) lastState;
-  mapping(string=>address[]) fileLogs;
+  mapping(string=>FileLog[]) fileLogs;
 
-  function log(string calldata file, address _user) external{
-      fileLogs[file].push(_user);
+
+  function log(string calldata file, address _user, string calldata timestamp) external{
+      fileLogs[file].push(FileLog(_user, timestamp));
   }
 
-  function getLogs(string memory file) public view returns(address[] memory){
+  function getLogs(string memory file) public view returns(FileLog[] memory){
       return fileLogs[file];
   }
 
-  function add(address _user,string calldata url, string calldata name) external {
+  function add(address _user,string calldata url, string calldata name, string calldata comment) external {
       if(filesMapping[_user][name].length > 0){
           uint version = filesMapping[_user][name].length + 1;
-          filesMapping[_user][name].push(File(url, version, name, false));
+          filesMapping[_user][name].push(File(url, version, name, false, comment));
       }else{
-        filesMapping[_user][name].push(File(url, 1, name, false));
+        filesMapping[_user][name].push(File(url, 1, name, false, comment));
       }
         fileUrls[_user].push(url);
 
@@ -61,6 +68,27 @@ contract FileAccess {
               }
            }
   }
+
+    function addComment(address _user, string calldata fileName, uint version, string calldata comment) external view {
+         File[] memory fileList = filesMapping[_user][fileName];
+           for (int i = 0; i < int(fileList.length); i++) {
+              if (fileList[uint(i)].version == version) {
+                  fileList[uint(i)].comment=comment;
+              }
+           }
+     }
+
+    function deleteComment(address _user, string calldata fileName, uint version) external view {
+         File[] memory fileList = filesMapping[_user][fileName];
+           for (int i = 0; i < int(fileList.length); i++) {
+              if (fileList[uint(i)].version == version) {
+                  fileList[uint(i)].comment="";
+              }
+           }
+     }
+
+
+
 
   function unStarFile(address _user, string calldata fileName, uint version) external view{
           File[] memory fileList = filesMapping[_user][fileName];
