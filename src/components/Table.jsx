@@ -148,6 +148,10 @@ function Table(contract, address) {
         //api call to delete file
     }
 
+    const closeShareModal = async()=>{
+        setOpenShareModal(false)
+    }
+
     const handleShareInput = async() =>{
        console.log(shareAddress);
        console.log(shareFileName);
@@ -259,6 +263,7 @@ function Table(contract, address) {
         <Box sx={style}>
         <input type="text" onChange={handleTextInput}/><br />
         <Button onClick={handleShareInput}> Share </Button>
+        <Button onClick={closeShareModal}> Close </Button>
         </Box>
         </div>
     </Modal>
