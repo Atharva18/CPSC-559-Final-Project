@@ -29,6 +29,8 @@ import { forwardRef } from 'react';
 
 function Table(contract, address) {
 
+    const [shareAddress, setShareAddress] = useState("")
+    const [shareFileName, setShareFileName] = useState("")
     const [account, setAccount] = useState(address)
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("No image selected");
@@ -37,6 +39,7 @@ function Table(contract, address) {
     const [uploadFailed,setUploadFailed] = useState(false)
     const [uploadSuccess,setUploadSuccess] = useState(false)
     const [openUploadModal, setOpenUploadModal] = useState(false)
+    const [openShareModal, setOpenShareModal] = useState(false)
     const [fileColumns] = useState([
         { title: 'File name', field: 'fileName' },  
     ])
@@ -90,7 +93,7 @@ function Table(contract, address) {
                 alink.click();
             })
             .catch(()=>{
-              console.log('download ')
+              console.log('download')
             })
         })
     }
@@ -98,16 +101,18 @@ function Table(contract, address) {
     const handleFileInput = (e) => {
         setSelectedFile(e.target.files[0]);
         setFileName(e.target.files[0].name);
-        
+    }
+
+    const handleTextInput = (e) =>{
+        console.log(e.target.value)
+        setShareAddress(e.target.value)
     }
 
     const handleUpload = async () => {
-        console.log(contract.contract)
           if (!selectedFile) {
             console.log('Please select a file.');
             return;
           }
-          console.log(fileName)
           const formData = new FormData();
           formData.append("file", selectedFile);
           console.log("formData",formData)
@@ -126,7 +131,6 @@ function Table(contract, address) {
             setUploadSuccess(true)
             setUploadClicked(true)
             const ImgHash = `https://apricot-central-bird-527.mypinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-            console.log(account)
             await contract.contract.add("0x6842A1448d40EE36926E64139F5aa0e10B580190", ImgHash, fileName, "NA")
             console.log(ImgHash)
         } catch (error) {
@@ -136,11 +140,19 @@ function Table(contract, address) {
         }
     
     const handleShare = (rowData) =>{
-        //share file api call
+        setOpenShareModal(true)
+        setShareFileName(rowData.fileName);
     }
 
     const handleDelete = (rowData) =>{
         //api call to delete file
+    }
+
+    const handleShareInput = async() =>{
+       console.log(shareAddress);
+       console.log(shareFileName);
+       await contract.contract.add(shareAddress, "url", shareFileName, "NA");
+       setOpenShareModal(false);
     }
 
     const getAllFilesApi = async(event) =>{
@@ -226,10 +238,8 @@ function Table(contract, address) {
     <Modal
         open={openUploadModal}
         onClose={handleCloseUploadModal}
-        center
-    >
+        center>
         <div >
-            
         <Box sx={style}>
         <h2>Upload File</h2><br />
         <input type="file" onChange={handleFileInput}/><br />
@@ -239,9 +249,22 @@ function Table(contract, address) {
           {uploadFailed && <div style={{color:"red"}}><b>Upload Failed</b></div>}
         </div>
         </Box>
-        
         </div>
     </Modal>
+
+    <Modal
+        open={openShareModal}
+        center>
+        <div >
+        <Box sx={style}>
+        <input type="text" onChange={handleTextInput}/><br />
+        <Button onClick={handleShareInput}> Share </Button>
+        </Box>
+        </div>
+    </Modal>
+
+
+
     </>
   )
 }
