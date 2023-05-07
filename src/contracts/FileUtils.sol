@@ -3,7 +3,8 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 pragma experimental ABIEncoderV2;
-contract FileAccess {
+
+contract FileUtils {
 
  struct File{
     string url;
@@ -86,8 +87,6 @@ contract FileAccess {
               }
            }
      }
-
-
 
 
   function unStarFile(address _user, string calldata fileName, uint version) external view{
