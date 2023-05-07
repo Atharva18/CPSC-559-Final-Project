@@ -12,10 +12,10 @@ import Dashboard from './Dashboard';
 import Login from './Login'
 import Navbar from "./Navbar";
 import Register from './Register'
-
+var address;
 function App() {
 
-  const [account, setAccount] = useState("");
+  const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -35,17 +35,20 @@ function App() {
         });
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
-        const address = await signer.getAddress();
+        address = await signer.getAddress();  
         setAccount(address);
+        console.log("Account "+ account)
+        console.log("Address "+ address)
         let contractAddress = "0xba93F6A3512538c0E04A715A8ece68570Ccc65D4";
-        const FileUtilsContract = new ethers.Contract(
+        var FileUtilsContract = new ethers.Contract(
           contractAddress,
           FileUtils.abi,
           signer
         );
-        console.log(FileUtilsContract);
+    
         setContract(FileUtilsContract);
         setProvider(provider);
+    
 
     //   await FileUtilsContract.add("0x6842A1448d40EE36926E64139F5aa0e10B580190", "url", "name", "comment");
     //   var dataArray = await FileUtilsContract.getFilesForUser("0x6842A1448d40EE36926E64139F5aa0e10B580190");
@@ -60,7 +63,10 @@ function App() {
     <div>
       <Navbar loggedIn={authState}/>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard 
+        contract={contract} 
+        account={address}
+        />} />
         <Route path="/login" element={<div className='App'><Login /></div>} />
         <Route path="/register" element={<div className='App'><Register /></div>} />
       </Routes>

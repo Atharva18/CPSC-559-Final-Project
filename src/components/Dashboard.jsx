@@ -6,7 +6,8 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import upload from "../assets/upload.png"
 
-const Dashboard = () => {
+const Dashboard = (contract, account) => {
+  console.log("address",account)
   return (
     <>
       <div className="container">
@@ -14,7 +15,7 @@ const Dashboard = () => {
             {/* <Sidebar /> */}
           {/* </div> */}
           {/* <div style={{float:"left", width:"80%"}}> */}
-            <MainContent />
+            <MainContent contract={contract.contract} account={account} />
           {/* </div> */}
         </div>
       </>

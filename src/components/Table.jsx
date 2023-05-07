@@ -17,14 +17,21 @@ import MaterialTable from 'material-table'
 import Modal from '@mui/material/Modal';
 import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
+import GetApp from '@material-ui/icons/GetApp';
 import Search from '@material-ui/icons/Search';
 import Share from '@material-ui/icons/Share';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from "axios";
 import { forwardRef } from 'react';
+//import { Web3Storage } from 'web3.storage'
 
-function Table() {
+//const client = new Web3Storage({token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGU5OUJhNTdDMmRBNDU4MDU3YUZjMTMxMTdmZGVkZjcyQmQ2RTUzMUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODM0NDA3ODI0MjUsIm5hbWUiOiJUb2tlbiJ9.ciiUnLeIE-vljqyuOcRUKiBdfSG6_2f4OnS3C1GTUDI"});
 
+function Table(contract, address) {
+
+    const [account, setAccount] = useState(address)
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState("No image selected");
     const [selectedFile,setSelectedFile] = useState(null);
     const [uploadClicked, setUploadClicked] = useState(false)
     const [uploadFailed,setUploadFailed] = useState(false)
@@ -33,32 +40,7 @@ function Table() {
     const [fileColumns] = useState([
         { title: 'File name', field: 'fileName' },  
     ])
-    const [fileData,setFileData] = useState([
-        {
-            fileName:"abc.txt"
-        },
-        {
-            fileName:"def.txt"
-        },
-        {
-            fileName:"crypt.txt"
-        },
-        {
-            fileName:"sha256.txt"
-        },
-        {
-            fileName:"ledger.txt"
-        },
-        {
-            fileName:"florida.txt"
-        },
-        {
-            fileName:"brooklyn.txt"
-        },
-        {
-            fileName:"california.txt"
-        },
-    ])
+    const [fileData,setFileData] = useState([]);
 
     const style = {
         position: 'absolute',
@@ -115,34 +97,43 @@ function Table() {
 
     const handleFileInput = (e) => {
         setSelectedFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
         
     }
+
     const handleUpload = async () => {
-        if (!selectedFile) {
-          console.log('Please select a file.');
-          return;
-        }
-        const formData = new FormData();
-     
-      // Update the formData object
-      formData.append(
-        "myFile",
-        selectedFile,
-        selectedFile.name
-      );
-        console.log('formData',formData)
-        try {
-          await axios.post('url', formData).then(response => {
-            console.log("File uploaded successfully.",response);
+        console.log(contract.contract)
+          if (!selectedFile) {
+            console.log('Please select a file.');
+            return;
+          }
+          console.log(fileName)
+          const formData = new FormData();
+          formData.append("file", selectedFile);
+          console.log("formData",formData)
+          try {
+            axios.defaults.baseURL = "https://api.pinata.cloud";
+            const resFile = await axios({
+              method: "post",
+              url: "/pinning/pinFileToIPFS",
+              data: formData,
+              headers: {
+                pinata_api_key: `7618958d16a21146d20a`,
+                pinata_secret_api_key: `79a0f5e0c6837ac2bc017cb2cd5e8feeeb077d2f649b4ea5421904e695978ecf`,
+                "Content-Type": "multipart/form-data",
+              },
+            });
             setUploadSuccess(true)
             setUploadClicked(true)
-          });
-    
-      } catch (error) {
-        console.log(error);
-        setUploadFailed(true)
-      }
-      }
+            const ImgHash = `https://apricot-central-bird-527.mypinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+            console.log(account)
+            await contract.contract.add("0x6842A1448d40EE36926E64139F5aa0e10B580190", ImgHash, fileName, "NA")
+            console.log(ImgHash)
+        } catch (error) {
+          console.log(error);
+          setUploadFailed(true)
+        }
+        }
     
     const handleShare = (rowData) =>{
         //share file api call
@@ -152,8 +143,10 @@ function Table() {
         //api call to delete file
     }
 
-    const getAllFilesApi = () =>{
-        // console.log('api call to get all files')
+    const getAllFilesApi = async(event) =>{
+        console.log(contract)
+        var dataArray = await contract.contract.getFilesForUser("0x6842A1448d40EE36926E64139F5aa0e10B580190");
+        setFileData(dataArray.map((data) => ({ fileName: data.name })));
     }
     const handleCloseUploadModal = () =>{
         setOpenUploadModal(false)
@@ -164,7 +157,7 @@ function Table() {
     }
 
     useEffect(()=>{
-        getAllFilesApi()
+      //  getAllFilesApi()
     },[])
   return (
     <>
@@ -217,6 +210,16 @@ function Table() {
                         setOpenUploadModal(true)
                     }
                 },
+                {
+                    icon: ()=>(
+                        <GetApp style={{color:"black"}}/>
+                    ),
+                    isFreeAction:true,
+                    tooltip: 'Get Data',
+                    onClick: (event,rowData) =>{
+                        getAllFilesApi(event)
+                    }
+                }
             ]}
         />
 
@@ -236,6 +239,7 @@ function Table() {
           {uploadFailed && <div style={{color:"red"}}><b>Upload Failed</b></div>}
         </div>
         </Box>
+        
         </div>
     </Modal>
     </>

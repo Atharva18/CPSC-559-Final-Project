@@ -4,17 +4,19 @@ import React,{ useState } from 'react';
 import axios from "axios";
 
 function Card(props) {
-    const [selectedFile,setSelectedFile] = useState(null);
+
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("No image selected");
+  const [selectedFile,setSelectedFile] = useState(null);
   const [uploadClicked, setUploadClicked] = useState(false)
   const [uploadFailed,setUploadFailed] = useState(false)
   const [uploadSuccess,setUploadSuccess] = useState(false)
+
     const handleDownload =() => {
         fetch('url').then(response => {
             response.blob()
             .then(blob => {
-                // Creating new object of PDF file
                 const fileURL = window.URL.createObjectURL(blob);
-                // Setting various property values
                 let alink = document.createElement('a');
                 alink.href = fileURL;
                 alink.download = 'downloads.txt';
@@ -27,29 +29,35 @@ function Card(props) {
     }
     const handleFileInput = (e) => {
         setSelectedFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
         
     }
     const handleUpload = async () => {
+      console.log("handleUpload", selectedFile)
         if (!selectedFile) {
           console.log('Please select a file.');
           return;
         }
+        console.log(fileName)
         const formData = new FormData();
-     
-      // Update the formData object
-      formData.append(
-        "myFile",
-        selectedFile,
-        selectedFile.name
-      );
-        console.log('formData',formData)
+        formData.append("file", selectedFile);
+        console.log("formData",formData)
         try {
-          await axios.post('url', formData).then(response => {
-            console.log("File uploaded successfully.",response);
-            setUploadSuccess(true)
-            setUploadClicked(true)
+          axios.defaults.baseURL = "https://api.pinata.cloud";
+          const resFile = await axios({
+            method: "post",
+            url: "/pinning/pinFileToIPFS",
+            data: formData,
+            headers: {
+              pinata_api_key: `7618958d16a21146d20a`,
+              pinata_secret_api_key: `79a0f5e0c6837ac2bc017cb2cd5e8feeeb077d2f649b4ea5421904e695978ecf`,
+              "Content-Type": "multipart/form-data",
+            },
           });
-    
+          setUploadSuccess(true)
+          setUploadClicked(true)
+          const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+          console.log(ImgHash)
       } catch (error) {
         console.log(error);
         setUploadFailed(true)
