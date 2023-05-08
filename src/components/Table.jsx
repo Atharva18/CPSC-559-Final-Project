@@ -38,6 +38,8 @@ function Table(contract, address) {
     const [uploadClicked, setUploadClicked] = useState(false)
     const [uploadFailed,setUploadFailed] = useState(false)
     const [uploadSuccess,setUploadSuccess] = useState(false)
+    const [deleteFailed,setdeleteFailed] = useState(false)
+    const [deleteSuccess,setdeleteSuccess] = useState(false)
     const [openUploadModal, setOpenUploadModal] = useState(false)
     const [openShareModal, setOpenShareModal] = useState(false)
     const [fileColumns] = useState([
@@ -131,21 +133,37 @@ function Table(contract, address) {
             setUploadSuccess(true)
             setUploadClicked(true)
             const ImgHash = `https://apricot-central-bird-527.mypinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+<<<<<<< Updated upstream
             await contract.contract.add("0x6842A1448d40EE36926E64139F5aa0e10B580190", ImgHash, fileName, "NA")
+=======
+            console.log(account)
+            await contract.contract.add("0x6BfFb13623096875129605697d2478f2e268E8ed", ImgHash, fileName, "NA")
+>>>>>>> Stashed changes
             console.log(ImgHash)
+            setdeleteSuccess(true)
         } catch (error) {
           console.log(error);
-          setUploadFailed(true)
+          setdeleteFailed(true)
         }
         }
     
     const handleShare = (rowData) =>{
+<<<<<<< Updated upstream
         setOpenShareModal(true)
         setShareFileName(rowData.fileName);
     }
+=======
+        //share file api call
+    } 
+>>>>>>> Stashed changes
 
-    const handleDelete = (rowData) =>{
-        //api call to delete file
+    const handleDelete = async(rowData) =>{
+        try {
+            console.log(rowData.fileName.split("version_").pop())
+            await contract.contract.deleteFile("0x6BfFb13623096875129605697d2478f2e268E8ed", rowData.fileName, rowData.fileName.split("version_").pop())
+        } catch (error) {
+          console.log(error);
+        }
     }
 
     const closeShareModal = async()=>{
@@ -161,8 +179,8 @@ function Table(contract, address) {
 
     const getAllFilesApi = async(event) =>{
         console.log(contract)
-        var dataArray = await contract.contract.getFilesForUser("0x6842A1448d40EE36926E64139F5aa0e10B580190");
-        setFileData(dataArray.map((data) => ({ fileName: data.name })));
+        var dataArray = await contract.contract.getFilesForUser("0x6BfFb13623096875129605697d2478f2e268E8ed");
+        setFileData(dataArray.map((data) => ({ fileName: data.name + '  version_' + data.version })));
     }
     const handleCloseUploadModal = () =>{
         setOpenUploadModal(false)

@@ -119,7 +119,7 @@ contract FileUtils {
              for (int i = int(fileList.length) - 1; i >= 0; i--) {
               if (fileList[uint(i)].version == version) {
                  fileList[uint(i)] = fileList[fileList.length - 1];
-                 fileList.pop();
+                 fileList[uint(i)].pop();
              }
          }
          filesMapping[_user][name]=fileList;

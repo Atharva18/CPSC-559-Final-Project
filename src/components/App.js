@@ -39,7 +39,7 @@ function App() {
         setAccount(address);
         console.log("Account "+ account)
         console.log("Address "+ address)
-        let contractAddress = "0xba93F6A3512538c0E04A715A8ece68570Ccc65D4";
+        let contractAddress = "0x533fA9B3917dF906Ec0C4EfCA12A5B021D668678";
         var FileUtilsContract = new ethers.Contract(
           contractAddress,
           FileUtils.abi,
