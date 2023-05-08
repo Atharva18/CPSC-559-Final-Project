@@ -65,7 +65,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard 
         contract={contract} 
-        account={address}
+        account={account}
         />} />
         <Route path="/login" element={<div className='App'><Login /></div>} />
         <Route path="/register" element={<div className='App'><Register /></div>} />

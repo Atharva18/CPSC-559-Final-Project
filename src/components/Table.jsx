@@ -27,11 +27,11 @@ import { forwardRef } from 'react';
 
 //const client = new Web3Storage({token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGU5OUJhNTdDMmRBNDU4MDU3YUZjMTMxMTdmZGVkZjcyQmQ2RTUzMUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODM0NDA3ODI0MjUsIm5hbWUiOiJUb2tlbiJ9.ciiUnLeIE-vljqyuOcRUKiBdfSG6_2f4OnS3C1GTUDI"});
 
-function Table(contract, address) {
+function Table({contract, account}) {
 
     const [shareAddress, setShareAddress] = useState("")
     const [shareFileName, setShareFileName] = useState("")
-    const [account, setAccount] = useState(address)
+    //const [account, setAccount] = useState(account)
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("No image selected");
     const [selectedFile,setSelectedFile] = useState(null);
@@ -133,34 +133,24 @@ function Table(contract, address) {
             setUploadSuccess(true)
             setUploadClicked(true)
             const ImgHash = `https://apricot-central-bird-527.mypinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-<<<<<<< Updated upstream
-            await contract.contract.add("0x6842A1448d40EE36926E64139F5aa0e10B580190", ImgHash, fileName, "NA")
-=======
-            console.log(account)
-            await contract.contract.add("0x6BfFb13623096875129605697d2478f2e268E8ed", ImgHash, fileName, "NA")
->>>>>>> Stashed changes
+            await contract.add(account, ImgHash, fileName, "NA")
             console.log(ImgHash)
-            setdeleteSuccess(true)
+        
         } catch (error) {
           console.log(error);
-          setdeleteFailed(true)
+          setUploadFailed(true)
         }
         }
     
     const handleShare = (rowData) =>{
-<<<<<<< Updated upstream
         setOpenShareModal(true)
         setShareFileName(rowData.fileName);
     }
-=======
-        //share file api call
-    } 
->>>>>>> Stashed changes
 
     const handleDelete = async(rowData) =>{
         try {
             console.log(rowData.fileName.split("version_").pop())
-            await contract.contract.deleteFile("0x6BfFb13623096875129605697d2478f2e268E8ed", rowData.fileName, rowData.fileName.split("version_").pop())
+            await contract.deleteFile(account, rowData.fileName, rowData.fileName.split("version_").pop())
         } catch (error) {
           console.log(error);
         }
@@ -173,13 +163,14 @@ function Table(contract, address) {
     const handleShareInput = async() =>{
        console.log(shareAddress);
        console.log(shareFileName);
-       await contract.contract.add(shareAddress, "url", shareFileName, "NA");
+       await contract.add(shareAddress, "url", shareFileName, "NA");
        setOpenShareModal(false);
     }
 
     const getAllFilesApi = async(event) =>{
         console.log(contract)
-        var dataArray = await contract.contract.getFilesForUser("0x6BfFb13623096875129605697d2478f2e268E8ed");
+        console.log("address",account)
+        var dataArray = await contract.getFilesForUser(account);
         setFileData(dataArray.map((data) => ({ fileName: data.name + '  version_' + data.version })));
     }
     const handleCloseUploadModal = () =>{

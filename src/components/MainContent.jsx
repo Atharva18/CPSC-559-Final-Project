@@ -7,13 +7,13 @@ import React from 'react'
 import Table from "./Table";
 import upload from "../assets/upload.png"
 
-function MainContent(contract, account) {
+function MainContent({contract, account}) {
   return (
     <div className="main">
     <Box sx={{ flexGrow: 1 }} >
       <Grid container spacing={2} align = "center" style={{justifyContent:"center"}}>
         <Grid item xs={8}>
-            <Table contract={contract.contract} account={account} />
+            <Table contract={contract} account={account} />
         </Grid>
         {/* <Grid item xs={6}>
         <Card name="Upload file" src={upload} action="upload"/>

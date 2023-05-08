@@ -6,8 +6,9 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import upload from "../assets/upload.png"
 
-const Dashboard = (contract, account) => {
+const Dashboard = ({contract, account}) => {
   console.log("address",account)
+  console.log("contract",contract)
   return (
     <>
       <div className="container">
@@ -15,12 +16,23 @@ const Dashboard = (contract, account) => {
             {/* <Sidebar /> */}
           {/* </div> */}
           {/* <div style={{float:"left", width:"80%"}}> */}
-            <MainContent contract={contract.contract} account={account} />
+            <MainContent contract={contract} account={account} />
           {/* </div> */}
         </div>
       </>
   );
 };
+  //   if (!account) {
+  //     return <p>Loading...</p>;
+  //   }
+
+  //   return (
+  //     <div>
+  //       <h2>Login</h2>
+  //       <p>Welcome, {account}!</p>
+  //     </div>
+  //   );
+  // };
 
 
 
