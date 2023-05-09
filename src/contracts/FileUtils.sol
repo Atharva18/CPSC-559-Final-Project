@@ -3,7 +3,8 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 pragma experimental ABIEncoderV2;
-contract FileAccess {
+
+contract FileUtils {
 
  struct File{
     string url;
@@ -60,25 +61,30 @@ contract FileAccess {
              fileNames[_user].push(name);
   }
 
-  function starFile(address _user, string calldata fileName, uint version) external view {
-         File[] memory fileList = filesMapping[_user][fileName];
-           for (int i = 0; i < int(fileList.length); i++) {
-              if (fileList[uint(i)].version == version) {
-                  fileList[uint(i)].isStarred=true;
-              }
-           }
-  }
-
-    function addComment(address _user, string calldata fileName, uint version, string calldata comment) external view {
-         File[] memory fileList = filesMapping[_user][fileName];
-           for (int i = 0; i < int(fileList.length); i++) {
-              if (fileList[uint(i)].version == version) {
-                  fileList[uint(i)].comment=comment;
-              }
-           }
+function starFile(address _user, string calldata fileName, uint version) external {
+    File[] storage fileList = filesMapping[_user][fileName];
+    for (uint i = 0; i < fileList.length; i++) {
+        if (fileList[i].version == version) {
+            File memory updatedFile = fileList[i];
+            updatedFile.isStarred = true;
+            fileList[i] = updatedFile;
+            break;
+        }
+    }
+}
+    function addComment(address _user, string calldata fileName, uint version, string calldata comment) external {
+         File[] storage fileList = filesMapping[_user][fileName];
+            for (uint i = 0; i < fileList.length; i++) {
+                if (fileList[i].version == version) {
+                File memory updatedFile = fileList[i];
+                updatedFile.comment = comment;
+                fileList[i] = updatedFile;
+                break;
+            }
+    }
      }
 
-    function deleteComment(address _user, string calldata fileName, uint version) external view {
+    function deleteComment(address _user, string calldata fileName, uint version) external {
          File[] memory fileList = filesMapping[_user][fileName];
            for (int i = 0; i < int(fileList.length); i++) {
               if (fileList[uint(i)].version == version) {
@@ -88,9 +94,7 @@ contract FileAccess {
      }
 
 
-
-
-  function unStarFile(address _user, string calldata fileName, uint version) external view{
+  function unStarFile(address _user, string calldata fileName, uint version) external{
           File[] memory fileList = filesMapping[_user][fileName];
            for (int i = 0; i < int(fileList.length); i++) {
               if (fileList[uint(i)].version == version) {
