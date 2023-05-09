@@ -22,9 +22,8 @@ export default function Register({userAuthContract}){
        console.log('userAuthContract', userAuthContract);
        console.log(address)
        console.log(pass);
-       //console.log(contract);
-       //await contract.addUser(address, pass);
-
+       await userAuthContract.addUser(address, pass)
+       navigate('/')
     }
 
     return (
