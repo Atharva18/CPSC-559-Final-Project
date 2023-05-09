@@ -5,8 +5,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-export default function Login(props){
-    console.log(props.userAuthContract)
+export default function Login({userAuthContract}){
+    console.log('userAuthContract', userAuthContract)
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const  navigate = useNavigate()
@@ -18,7 +18,7 @@ export default function Login(props){
     }
 
     const goToReceiver = () => {
-        navigate('/register',{state:{userAuthContract: props.userAuthContract}});
+        navigate('/register',{state:{userAuthContract: userAuthContract}});
     }
 
     return (

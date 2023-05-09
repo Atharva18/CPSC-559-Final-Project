@@ -4,9 +4,9 @@ import { Button, TextField } from '@mui/material';
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-export default function Register(props){
+export default function Register({userAuthContract}){
     const location = useLocation();
-    console.log(location.state)
+    //console.log(location.state)
     const [contract, setContract] = useState();
     const [address, setAddress] = useState('');
     const [pass, setPass] = useState('');
@@ -19,10 +19,11 @@ export default function Register(props){
     }
 
     const handleRegister = async(e) =>{
+       console.log('userAuthContract', userAuthContract);
        console.log(address)
        console.log(pass);
-       console.log(contract);
-       await contract.addUser(address, pass);
+       //console.log(contract);
+       //await contract.addUser(address, pass);
 
     }
 
