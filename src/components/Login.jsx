@@ -2,18 +2,23 @@ import './auth.css'
 
 import { Button, TextField } from '@mui/material';
 import React, { useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 
+
 export default function Login(props){
+    console.log(props.userAuthContract)
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const  navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email);
-        localStorage.setItem('token','ahaha')
+        //localStorage.setItem('token','ahaha')
         navigate('/')
+    }
+
+    const goToReceiver = () => {
+        navigate('/register',{state:{userAuthContract: props.userAuthContract}});
     }
 
     return (
@@ -38,7 +43,7 @@ export default function Login(props){
             /> <br />        
                 <Button type="submit">Log In</Button>
             </form>
-            <button className="link-btn" onClick={() => navigate('/register')} style={{color:"black"}}>Don't have an account? Register here.</button>
+            <button className="link-btn" onClick={goToReceiver} style={{color:"black"}}>Don't have an account? Register here.</button>
         </div>
     )
 }

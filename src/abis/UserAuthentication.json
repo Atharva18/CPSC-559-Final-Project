@@ -75,19 +75,19 @@
   "sourceMap": "75:630:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;75:630:2;;;;;;;",
   "deployedSourceMap": "75:630:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;75:630:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;278:174;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;278:174:2;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;460:240;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;460:240:2;;;;;;;;;;;;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;460:240:2;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;460:240:2;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;460:240:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;460:240:2;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;161:109;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;161:109:2;;;;;;;;;;;;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;161:109:2;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;161:109:2;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;161:109:2;;;;;;;;;;;;:::i;:::-;;278:174;333:4;393:1;358:16;:23;375:5;358:23;;;;;;;;;;;;;;;352:37;;;;;;;;;;;;;;;;:42;349:72;;417:4;410:11;;;;349:72;439:5;432:12;;278:174;;;;:::o;460:240::-;534:4;637;620:22;;;;;;;;;;;;;;;36:153:-1;66:2;61:3;58:11;36:153;;182:3;176:10;171:3;164:23;98:2;93:3;89:12;82:19;;123:2;118:3;114:12;107:19;;148:2;143:3;139:12;132:19;;36:153;;;274:1;267:3;263:2;259:12;254:3;250:22;246:30;315:4;311:9;305:3;299:10;295:26;356:4;350:3;344:10;340:21;389:7;380;377:20;372:3;365:33;3:399;;;620:22:2;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;620:22:2;;;610:33;;;;;;581:16;:23;598:5;581:23;;;;;;;;;;;;;;;564:41;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;49:4:-1;39:7;30;26:21;22:32;13:7;6:49;564:41:2;;;554:52;;;;;;:89;551:118;;;665:4;658:11;;;;551:118;687:5;680:12;;460:240;;;;;:::o;161:109::-;258:4;;234:16;:23;251:5;234:23;;;;;;;;;;;;;;;:28;;;;;;;:::i;:::-;;161:109;;;:::o;75:630::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
   "source": "// SPDX-License-Identifier: GPL-3.0\r\n\r\npragma solidity >=0.4.21 <0.6.0;\r\n\r\ncontract UserAuthentication{\r\n\r\n    mapping(address=>string) userPassMappings;\r\n\r\n    function addUser(address _user,string calldata pass) external {\r\n        userPassMappings[_user]=pass;\r\n    }\r\n\r\n    function userExists(address _user) public view returns(bool) {\r\n       if(bytes(userPassMappings[_user]).length != 0 )\r\n            return true;\r\n        return false;\r\n    }\r\n\r\n    function checkPass(address _user, string memory pass) public view returns(bool) {\r\n        if(keccak256(abi.encodePacked(userPassMappings[_user])) == keccak256(abi.encodePacked(pass)))\r\n            return true;\r\n        return false;\r\n    }\r\n\r\n}\r\n\r\n",
-  "sourcePath": "C:\\Users\\manveerjhala\\CPSC-559-Advanced-Blockchain-Final-Project\\src\\contracts\\UserAuthentication.sol",
+  "sourcePath": "C:\\Users\\atharvakaranje\\Desktop\\CPSC 559 Final Project\\src\\contracts\\UserAuthentication.sol",
   "ast": {
     "absolutePath": "project:/src/contracts/UserAuthentication.sol",
     "exportedSymbols": {
       "UserAuthentication": [
-        911
+        923
       ]
     },
-    "id": 912,
+    "id": 924,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 841,
+        "id": 853,
         "literals": [
           "solidity",
           ">=",
@@ -106,19 +106,19 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 911,
+        "id": 923,
         "linearizedBaseContracts": [
-          911
+          923
         ],
         "name": "UserAuthentication",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 845,
+            "id": 857,
             "name": "userPassMappings",
             "nodeType": "VariableDeclaration",
-            "scope": 911,
+            "scope": 923,
             "src": "111:41:2",
             "stateVariable": true,
             "storageLocation": "default",
@@ -127,9 +127,9 @@
               "typeString": "mapping(address => string)"
             },
             "typeName": {
-              "id": 844,
+              "id": 856,
               "keyType": {
-                "id": 842,
+                "id": 854,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "119:7:2",
@@ -145,7 +145,7 @@
                 "typeString": "mapping(address => string)"
               },
               "valueType": {
-                "id": 843,
+                "id": 855,
                 "name": "string",
                 "nodeType": "ElementaryTypeName",
                 "src": "128:6:2",
@@ -160,14 +160,14 @@
           },
           {
             "body": {
-              "id": 858,
+              "id": 870,
               "nodeType": "Block",
               "src": "223:47:2",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 856,
+                    "id": 868,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -176,25 +176,25 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 852,
+                        "id": 864,
                         "name": "userPassMappings",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 845,
+                        "referencedDeclaration": 857,
                         "src": "234:16:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_string_storage_$",
                           "typeString": "mapping(address => string storage ref)"
                         }
                       },
-                      "id": 854,
+                      "id": 866,
                       "indexExpression": {
                         "argumentTypes": null,
-                        "id": 853,
+                        "id": 865,
                         "name": "_user",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 847,
+                        "referencedDeclaration": 859,
                         "src": "251:5:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -216,11 +216,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 855,
+                      "id": 867,
                       "name": "pass",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 849,
+                      "referencedDeclaration": 861,
                       "src": "258:4:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_calldata_ptr",
@@ -233,29 +233,29 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 857,
+                  "id": 869,
                   "nodeType": "ExpressionStatement",
                   "src": "234:28:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 859,
+            "id": 871,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "addUser",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 850,
+              "id": 862,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 847,
+                  "id": 859,
                   "name": "_user",
                   "nodeType": "VariableDeclaration",
-                  "scope": 859,
+                  "scope": 871,
                   "src": "178:13:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -264,7 +264,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 846,
+                    "id": 858,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "178:7:2",
@@ -279,10 +279,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 849,
+                  "id": 861,
                   "name": "pass",
                   "nodeType": "VariableDeclaration",
-                  "scope": 859,
+                  "scope": 871,
                   "src": "192:20:2",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -291,7 +291,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 848,
+                    "id": 860,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "192:6:2",
@@ -307,12 +307,12 @@
               "src": "177:36:2"
             },
             "returnParameters": {
-              "id": 851,
+              "id": 863,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "223:0:2"
             },
-            "scope": 911,
+            "scope": 923,
             "src": "161:109:2",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -320,7 +320,7 @@
           },
           {
             "body": {
-              "id": 879,
+              "id": 891,
               "nodeType": "Block",
               "src": "339:113:2",
               "statements": [
@@ -331,7 +331,7 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 873,
+                    "id": 885,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -345,25 +345,25 @@
                             "argumentTypes": null,
                             "baseExpression": {
                               "argumentTypes": null,
-                              "id": 867,
+                              "id": 879,
                               "name": "userPassMappings",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 845,
+                              "referencedDeclaration": 857,
                               "src": "358:16:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_mapping$_t_address_$_t_string_storage_$",
                                 "typeString": "mapping(address => string storage ref)"
                               }
                             },
-                            "id": 869,
+                            "id": 881,
                             "indexExpression": {
                               "argumentTypes": null,
-                              "id": 868,
+                              "id": 880,
                               "name": "_user",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 861,
+                              "referencedDeclaration": 873,
                               "src": "375:5:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_address",
@@ -389,7 +389,7 @@
                               "typeString": "string storage ref"
                             }
                           ],
-                          "id": 866,
+                          "id": 878,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -402,7 +402,7 @@
                           },
                           "typeName": "bytes"
                         },
-                        "id": 870,
+                        "id": 882,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -416,7 +416,7 @@
                           "typeString": "bytes storage pointer"
                         }
                       },
-                      "id": 871,
+                      "id": 883,
                       "isConstant": false,
                       "isLValue": true,
                       "isPure": false,
@@ -435,7 +435,7 @@
                     "rightExpression": {
                       "argumentTypes": null,
                       "hexValue": "30",
-                      "id": 872,
+                      "id": 884,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -457,14 +457,14 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 876,
+                  "id": 888,
                   "nodeType": "IfStatement",
                   "src": "349:72:2",
                   "trueBody": {
                     "expression": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 874,
+                      "id": 886,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -479,8 +479,8 @@
                       },
                       "value": "true"
                     },
-                    "functionReturnParameters": 865,
-                    "id": 875,
+                    "functionReturnParameters": 877,
+                    "id": 887,
                     "nodeType": "Return",
                     "src": "410:11:2"
                   }
@@ -489,7 +489,7 @@
                   "expression": {
                     "argumentTypes": null,
                     "hexValue": "66616c7365",
-                    "id": 877,
+                    "id": 889,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -504,30 +504,30 @@
                     },
                     "value": "false"
                   },
-                  "functionReturnParameters": 865,
-                  "id": 878,
+                  "functionReturnParameters": 877,
+                  "id": 890,
                   "nodeType": "Return",
                   "src": "432:12:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 880,
+            "id": 892,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "userExists",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 862,
+              "id": 874,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 861,
+                  "id": 873,
                   "name": "_user",
                   "nodeType": "VariableDeclaration",
-                  "scope": 880,
+                  "scope": 892,
                   "src": "298:13:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -536,7 +536,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 860,
+                    "id": 872,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "298:7:2",
@@ -553,15 +553,15 @@
               "src": "297:15:2"
             },
             "returnParameters": {
-              "id": 865,
+              "id": 877,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 864,
+                  "id": 876,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 880,
+                  "scope": 892,
                   "src": "333:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -570,7 +570,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 863,
+                    "id": 875,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "333:4:2",
@@ -585,7 +585,7 @@
               ],
               "src": "332:6:2"
             },
-            "scope": 911,
+            "scope": 923,
             "src": "278:174:2",
             "stateMutability": "view",
             "superFunction": null,
@@ -593,7 +593,7 @@
           },
           {
             "body": {
-              "id": 909,
+              "id": 921,
               "nodeType": "Block",
               "src": "540:160:2",
               "statements": [
@@ -604,7 +604,7 @@
                       "typeIdentifier": "t_bytes32",
                       "typeString": "bytes32"
                     },
-                    "id": 903,
+                    "id": 915,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -619,25 +619,25 @@
                               "argumentTypes": null,
                               "baseExpression": {
                                 "argumentTypes": null,
-                                "id": 892,
+                                "id": 904,
                                 "name": "userPassMappings",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 845,
+                                "referencedDeclaration": 857,
                                 "src": "581:16:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_mapping$_t_address_$_t_string_storage_$",
                                   "typeString": "mapping(address => string storage ref)"
                                 }
                               },
-                              "id": 894,
+                              "id": 906,
                               "indexExpression": {
                                 "argumentTypes": null,
-                                "id": 893,
+                                "id": 905,
                                 "name": "_user",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 882,
+                                "referencedDeclaration": 894,
                                 "src": "598:5:2",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -665,18 +665,18 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 890,
+                              "id": 902,
                               "name": "abi",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 913,
+                              "referencedDeclaration": 925,
                               "src": "564:3:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_abi",
                                 "typeString": "abi"
                               }
                             },
-                            "id": 891,
+                            "id": 903,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -690,7 +690,7 @@
                               "typeString": "function () pure returns (bytes memory)"
                             }
                           },
-                          "id": 895,
+                          "id": 907,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -712,18 +712,18 @@
                             "typeString": "bytes memory"
                           }
                         ],
-                        "id": 889,
+                        "id": 901,
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 920,
+                        "referencedDeclaration": 932,
                         "src": "554:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                           "typeString": "function (bytes memory) pure returns (bytes32)"
                         }
                       },
-                      "id": 896,
+                      "id": 908,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -747,11 +747,11 @@
                           "arguments": [
                             {
                               "argumentTypes": null,
-                              "id": 900,
+                              "id": 912,
                               "name": "pass",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 884,
+                              "referencedDeclaration": 896,
                               "src": "637:4:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_string_memory_ptr",
@@ -768,18 +768,18 @@
                             ],
                             "expression": {
                               "argumentTypes": null,
-                              "id": 898,
+                              "id": 910,
                               "name": "abi",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 913,
+                              "referencedDeclaration": 925,
                               "src": "620:3:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_abi",
                                 "typeString": "abi"
                               }
                             },
-                            "id": 899,
+                            "id": 911,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
@@ -793,7 +793,7 @@
                               "typeString": "function () pure returns (bytes memory)"
                             }
                           },
-                          "id": 901,
+                          "id": 913,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -815,18 +815,18 @@
                             "typeString": "bytes memory"
                           }
                         ],
-                        "id": 897,
+                        "id": 909,
                         "name": "keccak256",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 920,
+                        "referencedDeclaration": 932,
                         "src": "610:9:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                           "typeString": "function (bytes memory) pure returns (bytes32)"
                         }
                       },
-                      "id": 902,
+                      "id": 914,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -847,14 +847,14 @@
                     }
                   },
                   "falseBody": null,
-                  "id": 906,
+                  "id": 918,
                   "nodeType": "IfStatement",
                   "src": "551:118:2",
                   "trueBody": {
                     "expression": {
                       "argumentTypes": null,
                       "hexValue": "74727565",
-                      "id": 904,
+                      "id": 916,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -869,8 +869,8 @@
                       },
                       "value": "true"
                     },
-                    "functionReturnParameters": 888,
-                    "id": 905,
+                    "functionReturnParameters": 900,
+                    "id": 917,
                     "nodeType": "Return",
                     "src": "658:11:2"
                   }
@@ -879,7 +879,7 @@
                   "expression": {
                     "argumentTypes": null,
                     "hexValue": "66616c7365",
-                    "id": 907,
+                    "id": 919,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": true,
@@ -894,30 +894,30 @@
                     },
                     "value": "false"
                   },
-                  "functionReturnParameters": 888,
-                  "id": 908,
+                  "functionReturnParameters": 900,
+                  "id": 920,
                   "nodeType": "Return",
                   "src": "680:12:2"
                 }
               ]
             },
             "documentation": null,
-            "id": 910,
+            "id": 922,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "checkPass",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 885,
+              "id": 897,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 882,
+                  "id": 894,
                   "name": "_user",
                   "nodeType": "VariableDeclaration",
-                  "scope": 910,
+                  "scope": 922,
                   "src": "479:13:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -926,7 +926,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 881,
+                    "id": 893,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "479:7:2",
@@ -941,10 +941,10 @@
                 },
                 {
                   "constant": false,
-                  "id": 884,
+                  "id": 896,
                   "name": "pass",
                   "nodeType": "VariableDeclaration",
-                  "scope": 910,
+                  "scope": 922,
                   "src": "494:18:2",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -953,7 +953,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 883,
+                    "id": 895,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "494:6:2",
@@ -969,15 +969,15 @@
               "src": "478:35:2"
             },
             "returnParameters": {
-              "id": 888,
+              "id": 900,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 887,
+                  "id": 899,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 910,
+                  "scope": 922,
                   "src": "534:4:2",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -986,7 +986,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 886,
+                    "id": 898,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "534:4:2",
@@ -1001,14 +1001,14 @@
               ],
               "src": "533:6:2"
             },
-            "scope": 911,
+            "scope": 923,
             "src": "460:240:2",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 912,
+        "scope": 924,
         "src": "75:630:2"
       }
     ],
@@ -1019,7 +1019,7 @@
       "absolutePath": "project:/src/contracts/UserAuthentication.sol",
       "exportedSymbols": {
         "UserAuthentication": [
-          911
+          923
         ]
       }
     },
@@ -1036,7 +1036,7 @@
             ".0"
           ]
         },
-        "id": 841,
+        "id": 853,
         "name": "PragmaDirective",
         "src": "39:32:2"
       },
@@ -1052,17 +1052,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            911
+            923
           ],
           "name": "UserAuthentication",
-          "scope": 912
+          "scope": 924
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "userPassMappings",
-              "scope": 911,
+              "scope": 923,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "mapping(address => string)",
@@ -1080,7 +1080,7 @@
                       "name": "address",
                       "type": "address"
                     },
-                    "id": 842,
+                    "id": 854,
                     "name": "ElementaryTypeName",
                     "src": "119:7:2"
                   },
@@ -1089,17 +1089,17 @@
                       "name": "string",
                       "type": "string"
                     },
-                    "id": 843,
+                    "id": 855,
                     "name": "ElementaryTypeName",
                     "src": "128:6:2"
                   }
                 ],
-                "id": 844,
+                "id": 856,
                 "name": "Mapping",
                 "src": "111:24:2"
               }
             ],
-            "id": 845,
+            "id": 857,
             "name": "VariableDeclaration",
             "src": "111:41:2"
           },
@@ -1113,7 +1113,7 @@
                 null
               ],
               "name": "addUser",
-              "scope": 911,
+              "scope": 923,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "external"
@@ -1125,7 +1125,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_user",
-                      "scope": 859,
+                      "scope": 871,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1139,12 +1139,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 846,
+                        "id": 858,
                         "name": "ElementaryTypeName",
                         "src": "178:7:2"
                       }
                     ],
-                    "id": 847,
+                    "id": 859,
                     "name": "VariableDeclaration",
                     "src": "178:13:2"
                   },
@@ -1152,7 +1152,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "pass",
-                      "scope": 859,
+                      "scope": 871,
                       "stateVariable": false,
                       "storageLocation": "calldata",
                       "type": "string",
@@ -1165,17 +1165,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 848,
+                        "id": 860,
                         "name": "ElementaryTypeName",
                         "src": "192:6:2"
                       }
                     ],
-                    "id": 849,
+                    "id": 861,
                     "name": "VariableDeclaration",
                     "src": "192:20:2"
                   }
                 ],
-                "id": 850,
+                "id": 862,
                 "name": "ParameterList",
                 "src": "177:36:2"
               },
@@ -1186,7 +1186,7 @@
                   ]
                 },
                 "children": [],
-                "id": 851,
+                "id": 863,
                 "name": "ParameterList",
                 "src": "223:0:2"
               },
@@ -1221,11 +1221,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 845,
+                                  "referencedDeclaration": 857,
                                   "type": "mapping(address => string storage ref)",
                                   "value": "userPassMappings"
                                 },
-                                "id": 852,
+                                "id": 864,
                                 "name": "Identifier",
                                 "src": "234:16:2"
                               },
@@ -1235,16 +1235,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 847,
+                                  "referencedDeclaration": 859,
                                   "type": "address",
                                   "value": "_user"
                                 },
-                                "id": 853,
+                                "id": 865,
                                 "name": "Identifier",
                                 "src": "251:5:2"
                               }
                             ],
-                            "id": 854,
+                            "id": 866,
                             "name": "IndexAccess",
                             "src": "234:23:2"
                           },
@@ -1254,31 +1254,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 849,
+                              "referencedDeclaration": 861,
                               "type": "string calldata",
                               "value": "pass"
                             },
-                            "id": 855,
+                            "id": 867,
                             "name": "Identifier",
                             "src": "258:4:2"
                           }
                         ],
-                        "id": 856,
+                        "id": 868,
                         "name": "Assignment",
                         "src": "234:28:2"
                       }
                     ],
-                    "id": 857,
+                    "id": 869,
                     "name": "ExpressionStatement",
                     "src": "234:28:2"
                   }
                 ],
-                "id": 858,
+                "id": 870,
                 "name": "Block",
                 "src": "223:47:2"
               }
             ],
-            "id": 859,
+            "id": 871,
             "name": "FunctionDefinition",
             "src": "161:109:2"
           },
@@ -1292,7 +1292,7 @@
                 null
               ],
               "name": "userExists",
-              "scope": 911,
+              "scope": 923,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -1304,7 +1304,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_user",
-                      "scope": 880,
+                      "scope": 892,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1318,17 +1318,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 860,
+                        "id": 872,
                         "name": "ElementaryTypeName",
                         "src": "298:7:2"
                       }
                     ],
-                    "id": 861,
+                    "id": 873,
                     "name": "VariableDeclaration",
                     "src": "298:13:2"
                   }
                 ],
-                "id": 862,
+                "id": 874,
                 "name": "ParameterList",
                 "src": "297:15:2"
               },
@@ -1338,7 +1338,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 880,
+                      "scope": 892,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -1351,17 +1351,17 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 863,
+                        "id": 875,
                         "name": "ElementaryTypeName",
                         "src": "333:4:2"
                       }
                     ],
-                    "id": 864,
+                    "id": 876,
                     "name": "VariableDeclaration",
                     "src": "333:4:2"
                   }
                 ],
-                "id": 865,
+                "id": 877,
                 "name": "ParameterList",
                 "src": "332:6:2"
               },
@@ -1429,7 +1429,7 @@
                                       "type": "type(bytes storage pointer)",
                                       "value": "bytes"
                                     },
-                                    "id": 866,
+                                    "id": 878,
                                     "name": "ElementaryTypeNameExpression",
                                     "src": "352:5:2"
                                   },
@@ -1449,11 +1449,11 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 845,
+                                          "referencedDeclaration": 857,
                                           "type": "mapping(address => string storage ref)",
                                           "value": "userPassMappings"
                                         },
-                                        "id": 867,
+                                        "id": 879,
                                         "name": "Identifier",
                                         "src": "358:16:2"
                                       },
@@ -1463,26 +1463,26 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 861,
+                                          "referencedDeclaration": 873,
                                           "type": "address",
                                           "value": "_user"
                                         },
-                                        "id": 868,
+                                        "id": 880,
                                         "name": "Identifier",
                                         "src": "375:5:2"
                                       }
                                     ],
-                                    "id": 869,
+                                    "id": 881,
                                     "name": "IndexAccess",
                                     "src": "358:23:2"
                                   }
                                 ],
-                                "id": 870,
+                                "id": 882,
                                 "name": "FunctionCall",
                                 "src": "352:30:2"
                               }
                             ],
-                            "id": 871,
+                            "id": 883,
                             "name": "MemberAccess",
                             "src": "352:37:2"
                           },
@@ -1499,18 +1499,18 @@
                               "type": "int_const 0",
                               "value": "0"
                             },
-                            "id": 872,
+                            "id": 884,
                             "name": "Literal",
                             "src": "393:1:2"
                           }
                         ],
-                        "id": 873,
+                        "id": 885,
                         "name": "BinaryOperation",
                         "src": "352:42:2"
                       },
                       {
                         "attributes": {
-                          "functionReturnParameters": 865
+                          "functionReturnParameters": 877
                         },
                         "children": [
                           {
@@ -1526,23 +1526,23 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 874,
+                            "id": 886,
                             "name": "Literal",
                             "src": "417:4:2"
                           }
                         ],
-                        "id": 875,
+                        "id": 887,
                         "name": "Return",
                         "src": "410:11:2"
                       }
                     ],
-                    "id": 876,
+                    "id": 888,
                     "name": "IfStatement",
                     "src": "349:72:2"
                   },
                   {
                     "attributes": {
-                      "functionReturnParameters": 865
+                      "functionReturnParameters": 877
                     },
                     "children": [
                       {
@@ -1558,22 +1558,22 @@
                           "type": "bool",
                           "value": "false"
                         },
-                        "id": 877,
+                        "id": 889,
                         "name": "Literal",
                         "src": "439:5:2"
                       }
                     ],
-                    "id": 878,
+                    "id": 890,
                     "name": "Return",
                     "src": "432:12:2"
                   }
                 ],
-                "id": 879,
+                "id": 891,
                 "name": "Block",
                 "src": "339:113:2"
               }
             ],
-            "id": 880,
+            "id": 892,
             "name": "FunctionDefinition",
             "src": "278:174:2"
           },
@@ -1587,7 +1587,7 @@
                 null
               ],
               "name": "checkPass",
-              "scope": 911,
+              "scope": 923,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -1599,7 +1599,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_user",
-                      "scope": 910,
+                      "scope": 922,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1613,12 +1613,12 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 881,
+                        "id": 893,
                         "name": "ElementaryTypeName",
                         "src": "479:7:2"
                       }
                     ],
-                    "id": 882,
+                    "id": 894,
                     "name": "VariableDeclaration",
                     "src": "479:13:2"
                   },
@@ -1626,7 +1626,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "pass",
-                      "scope": 910,
+                      "scope": 922,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "string",
@@ -1639,17 +1639,17 @@
                           "name": "string",
                           "type": "string"
                         },
-                        "id": 883,
+                        "id": 895,
                         "name": "ElementaryTypeName",
                         "src": "494:6:2"
                       }
                     ],
-                    "id": 884,
+                    "id": 896,
                     "name": "VariableDeclaration",
                     "src": "494:18:2"
                   }
                 ],
-                "id": 885,
+                "id": 897,
                 "name": "ParameterList",
                 "src": "478:35:2"
               },
@@ -1659,7 +1659,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 910,
+                      "scope": 922,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -1672,17 +1672,17 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 886,
+                        "id": 898,
                         "name": "ElementaryTypeName",
                         "src": "534:4:2"
                       }
                     ],
-                    "id": 887,
+                    "id": 899,
                     "name": "VariableDeclaration",
                     "src": "534:4:2"
                   }
                 ],
-                "id": 888,
+                "id": 900,
                 "name": "ParameterList",
                 "src": "533:6:2"
               },
@@ -1734,11 +1734,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 920,
+                                  "referencedDeclaration": 932,
                                   "type": "function (bytes memory) pure returns (bytes32)",
                                   "value": "keccak256"
                                 },
-                                "id": 889,
+                                "id": 901,
                                 "name": "Identifier",
                                 "src": "554:9:2"
                               },
@@ -1780,16 +1780,16 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 913,
+                                          "referencedDeclaration": 925,
                                           "type": "abi",
                                           "value": "abi"
                                         },
-                                        "id": 890,
+                                        "id": 902,
                                         "name": "Identifier",
                                         "src": "564:3:2"
                                       }
                                     ],
-                                    "id": 891,
+                                    "id": 903,
                                     "name": "MemberAccess",
                                     "src": "564:16:2"
                                   },
@@ -1809,11 +1809,11 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 845,
+                                          "referencedDeclaration": 857,
                                           "type": "mapping(address => string storage ref)",
                                           "value": "userPassMappings"
                                         },
-                                        "id": 892,
+                                        "id": 904,
                                         "name": "Identifier",
                                         "src": "581:16:2"
                                       },
@@ -1823,26 +1823,26 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 882,
+                                          "referencedDeclaration": 894,
                                           "type": "address",
                                           "value": "_user"
                                         },
-                                        "id": 893,
+                                        "id": 905,
                                         "name": "Identifier",
                                         "src": "598:5:2"
                                       }
                                     ],
-                                    "id": 894,
+                                    "id": 906,
                                     "name": "IndexAccess",
                                     "src": "581:23:2"
                                   }
                                 ],
-                                "id": 895,
+                                "id": 907,
                                 "name": "FunctionCall",
                                 "src": "564:41:2"
                               }
                             ],
-                            "id": 896,
+                            "id": 908,
                             "name": "FunctionCall",
                             "src": "554:52:2"
                           },
@@ -1872,11 +1872,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 920,
+                                  "referencedDeclaration": 932,
                                   "type": "function (bytes memory) pure returns (bytes32)",
                                   "value": "keccak256"
                                 },
-                                "id": 897,
+                                "id": 909,
                                 "name": "Identifier",
                                 "src": "610:9:2"
                               },
@@ -1918,16 +1918,16 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 913,
+                                          "referencedDeclaration": 925,
                                           "type": "abi",
                                           "value": "abi"
                                         },
-                                        "id": 898,
+                                        "id": 910,
                                         "name": "Identifier",
                                         "src": "620:3:2"
                                       }
                                     ],
-                                    "id": 899,
+                                    "id": 911,
                                     "name": "MemberAccess",
                                     "src": "620:16:2"
                                   },
@@ -1937,32 +1937,32 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 884,
+                                      "referencedDeclaration": 896,
                                       "type": "string memory",
                                       "value": "pass"
                                     },
-                                    "id": 900,
+                                    "id": 912,
                                     "name": "Identifier",
                                     "src": "637:4:2"
                                   }
                                 ],
-                                "id": 901,
+                                "id": 913,
                                 "name": "FunctionCall",
                                 "src": "620:22:2"
                               }
                             ],
-                            "id": 902,
+                            "id": 914,
                             "name": "FunctionCall",
                             "src": "610:33:2"
                           }
                         ],
-                        "id": 903,
+                        "id": 915,
                         "name": "BinaryOperation",
                         "src": "554:89:2"
                       },
                       {
                         "attributes": {
-                          "functionReturnParameters": 888
+                          "functionReturnParameters": 900
                         },
                         "children": [
                           {
@@ -1978,23 +1978,23 @@
                               "type": "bool",
                               "value": "true"
                             },
-                            "id": 904,
+                            "id": 916,
                             "name": "Literal",
                             "src": "665:4:2"
                           }
                         ],
-                        "id": 905,
+                        "id": 917,
                         "name": "Return",
                         "src": "658:11:2"
                       }
                     ],
-                    "id": 906,
+                    "id": 918,
                     "name": "IfStatement",
                     "src": "551:118:2"
                   },
                   {
                     "attributes": {
-                      "functionReturnParameters": 888
+                      "functionReturnParameters": 900
                     },
                     "children": [
                       {
@@ -2010,32 +2010,32 @@
                           "type": "bool",
                           "value": "false"
                         },
-                        "id": 907,
+                        "id": 919,
                         "name": "Literal",
                         "src": "687:5:2"
                       }
                     ],
-                    "id": 908,
+                    "id": 920,
                     "name": "Return",
                     "src": "680:12:2"
                   }
                 ],
-                "id": 909,
+                "id": 921,
                 "name": "Block",
                 "src": "540:160:2"
               }
             ],
-            "id": 910,
+            "id": 922,
             "name": "FunctionDefinition",
             "src": "460:240:2"
           }
         ],
-        "id": 911,
+        "id": 923,
         "name": "ContractDefinition",
         "src": "75:630:2"
       }
     ],
-    "id": 912,
+    "id": 924,
     "name": "SourceUnit",
     "src": "39:670:2"
   },
@@ -2047,12 +2047,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x09FeEa090deb8b88f70AF0ef8FCFfE055304267c",
-      "transactionHash": "0xcdd7c97dbaab18c64a7c9244b0d74d1524bb290311e27bae796fe1cf23f205f1"
+      "address": "0xA6aF88e5e01d4B72a1cD72802096f8bf58c70390",
+      "transactionHash": "0x74c0b5f5d6884e285d60bd5352b06d86e1c4f9503ea8a9306e473b15d1738e93"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-05-07T21:49:18.317Z",
+  "updatedAt": "2023-05-09T01:54:29.040Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

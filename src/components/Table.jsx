@@ -20,7 +20,10 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import GetApp from '@material-ui/icons/GetApp';
 import Search from '@material-ui/icons/Search';
 import Share from '@material-ui/icons/Share';
+import Comment from '@material-ui/icons/Comment';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import axios from "axios";
 import { forwardRef } from 'react';
 //import { Web3Storage } from 'web3.storage'
@@ -28,7 +31,8 @@ import { forwardRef } from 'react';
 //const client = new Web3Storage({token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGU5OUJhNTdDMmRBNDU4MDU3YUZjMTMxMTdmZGVkZjcyQmQ2RTUzMUUiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODM0NDA3ODI0MjUsIm5hbWUiOiJUb2tlbiJ9.ciiUnLeIE-vljqyuOcRUKiBdfSG6_2f4OnS3C1GTUDI"});
 
 function Table({contract, account}) {
-
+    const [comment, setComment] = useState("")
+    const [commentFileName, setCommentFileName] = useState("")
     const [shareAddress, setShareAddress] = useState("")
     const [shareFileName, setShareFileName] = useState("")
     //const [account, setAccount] = useState(account)
@@ -38,12 +42,12 @@ function Table({contract, account}) {
     const [uploadClicked, setUploadClicked] = useState(false)
     const [uploadFailed,setUploadFailed] = useState(false)
     const [uploadSuccess,setUploadSuccess] = useState(false)
-    const [deleteFailed,setdeleteFailed] = useState(false)
-    const [deleteSuccess,setdeleteSuccess] = useState(false)
     const [openUploadModal, setOpenUploadModal] = useState(false)
     const [openShareModal, setOpenShareModal] = useState(false)
+    const [openCommentModal, setOpenCommentModal] = useState(false)
     const [fileColumns] = useState([
-        { title: 'File name', field: 'fileName' },  
+        { title: 'File name', field: 'fileName' },
+        { title: 'Version', field: 'version' }
     ])
     const [fileData,setFileData] = useState([]);
 
@@ -91,6 +95,7 @@ function Table({contract, account}) {
                 // Setting various property values
                 let alink = document.createElement('a');
                 alink.href = fileURL;
+                console.log(rowData)
                 alink.download = rowData.fileName;
                 alink.click();
             })
@@ -149,15 +154,33 @@ function Table({contract, account}) {
 
     const handleDelete = async(rowData) =>{
         try {
-            console.log(rowData.fileName.split("version_").pop())
-            await contract.deleteFile(account, rowData.fileName, rowData.fileName.split("version_").pop())
+            await contract.deleteFile(account, rowData.fileName, rowData.version)
         } catch (error) {
           console.log(error);
         }
     }
 
+    const handleComment = (rowData) =>{
+        setOpenCommentModal(true)
+        setCommentFileName(rowData.fileName)
+        setComment(rowData.comment)
+    }
+
     const closeShareModal = async()=>{
         setOpenShareModal(false)
+        setOpenCommentModal(false)
+    }
+
+    const handleCommentTextInput = async(e)=>{
+        setComment(e.target.value)
+    }
+
+    const handleCommentInput = async()=>{
+        console.log(comment)
+        var temp = commentFileName.split('  ')[0];
+        console.log(temp)
+        await contract.addComment(account, temp, 1, comment)
+        setOpenCommentModal(false)
     }
 
     const handleShareInput = async() =>{
@@ -171,7 +194,7 @@ function Table({contract, account}) {
         console.log(contract)
         console.log("address",account)
         var dataArray = await contract.getFilesForUser(account);
-        setFileData(dataArray.map((data) => ({ fileName: data.name + '  version_' + data.version })));
+        setFileData(dataArray.map((data) => ({ fileName: data.name , version: data.version.toString(), bookmark:data.isStarred, comment: data.comment})));
     }
     const handleCloseUploadModal = () =>{
         setOpenUploadModal(false)
@@ -181,12 +204,27 @@ function Table({contract, account}) {
         setUploadSuccess(false)   
     }
 
+    const toggleBookmark = async(rowData) => {
+        const updatedData = fileData.map((file) => {
+            if (file.fileName === rowData.fileName) {
+                console.log(file)
+                console.log(rowData)
+                return {
+                    ...file,
+                    bookmark: !file.bookmark
+                };
+            }
+            return file;
+        });
+        await contract.starFile(account,fileName,rowData.version)
+        setFileData(updatedData);
+    };
+
     useEffect(()=>{
       //  getAllFilesApi()
     },[])
   return (
     <>
-        
         <MaterialTable
         style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px"}}
             title="Available Files"
@@ -198,6 +236,15 @@ function Table({contract, account}) {
                 actionsColumnIndex:-1
             }}
             actions={[
+                {
+                    icon: ()=>(
+                        <Comment />
+                    ),
+                    tooltip: 'Comment',
+                    onClick: (event,rowData) =>{
+                        handleComment(rowData)
+                    }
+                },
                 {
                     icon: ()=>(
                         <SaveAlt />
@@ -244,7 +291,14 @@ function Table({contract, account}) {
                     onClick: (event,rowData) =>{
                         getAllFilesApi(event)
                     }
-                }
+                },
+                rowData => ({
+                    icon: ()=>(rowData.bookmark?<TurnedInIcon />:<TurnedInNotIcon />),
+                    tooltip: 'Toggle Bookmark',
+                    onClick: (event, rowData) => {
+                        toggleBookmark(rowData);
+                    }
+                  }),
             ]}
         />
 
@@ -272,6 +326,18 @@ function Table({contract, account}) {
         <Box sx={style}>
         <input type="text" onChange={handleTextInput}/><br />
         <Button onClick={handleShareInput}> Share </Button>
+        <Button onClick={closeShareModal}> Close </Button>
+        </Box>
+        </div>
+    </Modal>
+    
+    <Modal
+        open={openCommentModal}
+        center>
+        <div >
+        <Box sx={style}>
+        <input type="text" value ={comment} onChange={handleCommentTextInput}/><br />
+        <Button onClick={handleCommentInput}> Comment </Button>
         <Button onClick={closeShareModal}> Close </Button>
         </Box>
         </div>
