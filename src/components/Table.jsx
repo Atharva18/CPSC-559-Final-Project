@@ -20,6 +20,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import GetApp from '@material-ui/icons/GetApp';
 import Search from '@material-ui/icons/Search';
 import Share from '@material-ui/icons/Share';
+import AccessTime from '@material-ui/icons/AccessTime';
 import Comment from '@material-ui/icons/Comment';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
@@ -45,6 +46,8 @@ function Table({contract, account}) {
     const [openUploadModal, setOpenUploadModal] = useState(false)
     const [openShareModal, setOpenShareModal] = useState(false)
     const [openCommentModal, setOpenCommentModal] = useState(false)
+    const [openLogsModal, setOpenLogsModal] = useState(false)
+    const [logs, setLogs] = useState(false)
     const [fileColumns] = useState([
         { title: 'File name', field: 'fileName' },
         { title: 'Version', field: 'version' }
@@ -56,7 +59,7 @@ function Table({contract, account}) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 500,
         bgcolor: 'black',
         border: '2px solid #414145',
         boxShadow: 24,
@@ -86,7 +89,7 @@ function Table({contract, account}) {
         ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
       };
     
-    const handleDownload =(rowData) => {
+    const handleDownload = (rowData) => {
         fetch('url').then(response => {
             response.blob()
             .then(blob => {
@@ -98,6 +101,17 @@ function Table({contract, account}) {
                 console.log(rowData)
                 alink.download = rowData.fileName;
                 alink.click();
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1;
+                const day = now.getDate();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+
+                const currentTimeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                console.log(currentTimeString);
+                contract.log(rowData.fileName, account, currentTimeString )
             })
             .catch(()=>{
               console.log('download')
@@ -169,6 +183,7 @@ function Table({contract, account}) {
     const closeShareModal = async()=>{
         setOpenShareModal(false)
         setOpenCommentModal(false)
+        setOpenLogsModal(false)
     }
 
     const handleCommentTextInput = async(e)=>{
@@ -220,6 +235,13 @@ function Table({contract, account}) {
         setFileData(updatedData);
     };
 
+   const handleLogs = async(rowData)=>{
+        setOpenLogsModal(true);
+        const logs = await contract.getLogs(rowData.fileName)
+        setLogs(logs)
+        console.log(logs[0][0])
+    }
+
     useEffect(()=>{
       //  getAllFilesApi()
     },[])
@@ -261,6 +283,15 @@ function Table({contract, account}) {
                     tooltip: 'Share File',
                     onClick: (event,rowData) =>{
                         handleShare(rowData)
+                    }
+                },
+                {
+                    icon: ()=>(
+                        <AccessTime />
+                    ),
+                    tooltip: 'Logs',
+                    onClick: (event,rowData) =>{
+                        handleLogs(rowData)
                     }
                 },
                 {
@@ -342,8 +373,23 @@ function Table({contract, account}) {
         </Box>
         </div>
     </Modal>
-
-
+    <Modal open={openLogsModal} center>
+        <div>
+            <Box sx={style}>
+            <h3>File Access Logs</h3>
+            {logs && logs.length > 0 && (
+                <ul>
+                {logs.map((log, index) => (
+                   <li key={index}>
+                   User: {log[0]}, downloaded the file at timestamp: {log[1]}
+                 </li>
+                ))}
+                </ul>
+            )}
+            <Button onClick={closeShareModal}>Close</Button>
+            </Box>
+        </div>
+    </Modal>
 
     </>
   )
