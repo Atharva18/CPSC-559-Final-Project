@@ -10,12 +10,7 @@ export default function Login({userAuthContract}){
     const [address, setAddress] = useState('');
     const [pass, setPass] = useState('');
     const  navigate = useNavigate()
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        navigate('/')
-    }
-
-    const goToReceiver = async() => {
+    const handleSubmit = async(e) => {
         console.log(address)
         console.log(pass)
         let checkPass = await userAuthContract.checkPass(address, pass)
@@ -25,8 +20,12 @@ export default function Login({userAuthContract}){
             alert('Invalid User')
     }
 
+    const goToReceiver = async(e) => {
+        e.preventDefault();
+        navigate('/register')
+    }
+
     return (
-    
         <div className="auth-form-container">
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
@@ -45,8 +44,9 @@ export default function Login({userAuthContract}){
                 placeholder="********" 
                 name="password"
             /> <br />    
+                <Button type="submit">Log In</Button>
             </form>
-            <button className="link-btn" onClick={goToReceiver} style={{color:"black"}}>Login</button>
+            <button className="link-btn" onClick={goToReceiver} style={{color:"black"}}>Don't have an account? Register here</button>
         </div>
         
     )
