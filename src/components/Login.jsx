@@ -5,20 +5,24 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-export default function Login(props){
-    console.log(props.userAuthContract)
-    const [email, setEmail] = useState('');
+export default function Login({userAuthContract}){
+    console.log('userAuthContract', userAuthContract)
+    const [address, setAddress] = useState('');
     const [pass, setPass] = useState('');
     const  navigate = useNavigate()
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(email);
-        //localStorage.setItem('token','ahaha')
-        navigate('/')
+    const handleSubmit = async(e) => {
+        console.log(address)
+        console.log(pass)
+        let checkPass = await userAuthContract.checkPass(address, pass)
+        if(checkPass)
+            navigate('/dashboard')
+        else
+            alert('Invalid User')
     }
 
-    const goToReceiver = () => {
-        navigate('/register',{state:{userAuthContract: props.userAuthContract}});
+    const goToReceiver = async(e) => {
+        e.preventDefault();
+        navigate('/register')
     }
 
     return (
@@ -26,13 +30,12 @@ export default function Login(props){
             <h2>Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
             <TextField id="outlined-basic" 
-                label="Email" 
+                label="Account Address" 
                 variant="outlined" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)}
-                type="email" 
-                placeholder="youremail@gmail.com" 
-                name="email"
+                value={address} 
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="0x6842A1448d40EE36926E64139F5aa0e10B580190" 
+                name="address"
             /> <br />
             <TextField id="outlined-basic" 
                 value={pass} 
@@ -40,10 +43,11 @@ export default function Login(props){
                 type="password" 
                 placeholder="********" 
                 name="password"
-            /> <br />        
+            /> <br />    
                 <Button type="submit">Log In</Button>
             </form>
-            <button className="link-btn" onClick={goToReceiver} style={{color:"black"}}>Don't have an account? Register here.</button>
+            <button className="link-btn" onClick={goToReceiver} style={{color:"black"}}>Don't have an account? Register here</button>
         </div>
+        
     )
 }

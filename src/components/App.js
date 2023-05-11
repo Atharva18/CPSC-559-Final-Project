@@ -83,7 +83,7 @@ function App() {
         account={account}
         />} />
         <Route path="/" element={<div className='App'><Login userAuthContract={userAuthContract} /></div>} />
-        <Route path="/register" element={<div className='App'><Register /></div>} />
+        <Route path="/register" element={<div className='App'><Register userAuthContract={userAuthContract} /></div>} />
       </Routes>
     </div>
   );
