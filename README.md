@@ -1,4 +1,11 @@
-# CPSC-559-Advanced-Blockchain-Final-Project
+# CPSC-559-Advanced-Blockchain-Final-Project Decentralized File Storage
+
+The Decentralized File Storage project is a blockchain-based solution that aims to provide a decentralized and secure method of storing files, eliminating the need for a central authority or intermediary.
+Users can upload files to the platform, which are then encrypted and divided into smaller chunks. These chunks are distributed across a network of nodes, forming a decentralized file storage system. The nodes are incentivized to participate in the network by earning rewards in the form of cryptocurrency.
+Distributing incentives, access restrictions, and file storage are all managed through smart contracts. By sending transactions to smart contracts, users can manage their files. File access is given according to predetermined guidelines and permissions established by the file owners.
+The project uses blockchain technology to deliver a trustless and censorship-resistant file storage solution using its transparency, immutability, and security properties. It aspires to allow people and companies to fully govern their data and safeguard it from illegal access or alteration.
+Overall, the Decentralized File Storage project offers a revolutionary method for storing data that uses blockchain technology and smart contracts to build a decentralized, safe, and open system.
+
 
 # Features
 
